@@ -8,12 +8,14 @@ import './styles/global.css';
 
 // Import Components
 import Header from './components/header';
+import Courses from './components/courses';
 
 function App() {
 
   return (
     <Router>
-      <Header></Header>
+      <Header/>
+      <Courses/>
     </Router>
   );
 }
