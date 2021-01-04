@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import axios from 'axios';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+import './styles/global.css';
+
+// Import Components
+import Header from './components/header';
 
 function App() {
 
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      await axios.get('http://localhost:5000/api/courses')
-          .then(res => {
-            setCourses(res.data.courses);
-          })
-          .catch(err=>{
-            console.log(err);
-      });
-    }
-    fetchData();
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <div>
-          {
-            courses.map(course => {
-              return <div>{ course.title }</div>
-            })
-          }
-        </div>
-      </header>
-    </div>
+    <Router>
+      <Header></Header>
+    </Router>
   );
 }
 
