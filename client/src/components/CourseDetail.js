@@ -8,7 +8,7 @@ export default function CourseDetail () {
     const { id } = useParams();
     
     // State for the course details
-    const [course, setCourse] = useState({ title: "", User: {} });
+    const [course, setCourse] = useState({ title: "", User: {}, description: null, estimatedTime: null, materialsNeeded: null });
 
     // A function that sends a delete request for a specified course.
     const deleteCourse = async () => {
@@ -63,41 +63,39 @@ export default function CourseDetail () {
                         <p>{course.User.firstName + " " + course.User.lastName}</p>
                     </div>
                     <div className="course--description">
-                        { course.description }
+                        { course.description !== null &&
+                            course.description.split( '\n' ).map( ( item ) => <p> { item } </p>)
+                        }
+                    </div>
+                </div>
+                <div className="grid-25 grid-right">
+                    <div className="course--stats">
+                        <ul className="course--stats--list">
+                            <li className="course--stats--list--item">
+                                <h4>Estimated Time</h4>
+                                { course.estimatedTime !== null &&
+                                    <h3>{course.estimatedTime}</h3>
+                                }
+                                { course.estimatedTime === null &&
+                                    <h3>Not specified.</h3>
+                                }
+                            </li>
+                            <li className="course--stats--list--item">
+                                <h4>Materials Needed</h4>
+                                
+                                { course.materialsNeeded !== null &&
+                                    <ul>
+                                        {course.materialsNeeded.replace('*', '').split( '\n*' ).map( ( item ) => <li>{ item } </li>)}
+                                    </ul>
+                                }
+                                { course.materialsNeeded === null &&
+                                    <p>None.</p>
+                                }
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     );
 }
-
-{/*
-    
-    
-
-    <div class="grid-25 grid-right">
-        <div class="course--stats">
-            <ul class="course--stats--list">
-            <li class="course--stats--list--item">
-                <h4>Estimated Time</h4>
-                <h3>14 hours</h3>
-            </li>
-            <li class="course--stats--list--item">
-                <h4>Materials Needed</h4>
-                <ul>
-                <li>1/2 x 3/4 inch parting strip</li>
-                <li>1 x 2 common pine</li>
-                <li>1 x 4 common pine</li>
-                <li>1 x 10 common pine</li>
-                <li>1/4 inch thick lauan plywood</li>
-                <li>Finishing Nails</li>
-                <li>Sandpaper</li>
-                <li>Wood Glue</li>
-                <li>Wood Filler</li>
-                <li>Minwax Oil Based Polyurethane</li>
-                </ul>
-            </li>
-            </ul>
-        </div>
-    </div>
-        */}
