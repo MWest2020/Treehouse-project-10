@@ -14,9 +14,14 @@ function App() {
 
   return (
     <Router>
-      <Header/>
-      <Courses/>
-    </Router>
+    <div>
+      <Header />
+
+      <Switch>
+        <Route path="/" component={Courses} />
+      </Switch>
+    </div>
+  </Router>
   );
 }
 
