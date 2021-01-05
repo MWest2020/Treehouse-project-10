@@ -7,8 +7,9 @@ import {
 import './styles/global.css';
 
 // Import Components
-import Header from './components/header';
-import Courses from './components/courses';
+import Header from './components/Header';
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
       <Header />
 
       <Switch>
-        <Route path="/" component={Courses} />
+        <Route exact path="/" component={Courses}/>
+        <Route path="/courses/:id" component={CourseDetail}/>
       </Switch>
     </div>
   </Router>
