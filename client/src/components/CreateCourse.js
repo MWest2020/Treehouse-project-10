@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 export default function CreateCourse (props) {
 
@@ -13,8 +14,26 @@ export default function CreateCourse (props) {
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
     const [errors, setErrors] = useState([]);
 
-    const handleCreation = (e) => {
+    // Create a function that handles creating a course with our api.
+    const handleCreation = async (e) => {
         e.preventDefault();
+
+        await axios.post(`http://localhost:5000/api/courses`, {
+            headers: {
+                'Authorization': `Basic ${props.userCredentials}`
+            },
+            data: {
+                title: title,
+                description: description,
+                userid: props.authenticatedUser.id,
+                estimatedTime: estimatedTime,
+                materialsNeeded: materialsNeeded
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        
     }
 
     return (

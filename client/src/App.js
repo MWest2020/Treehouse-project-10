@@ -5,6 +5,7 @@ import {
   Switch
 } from 'react-router-dom';
 import './styles/global.css';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 // Import Components
@@ -13,12 +14,13 @@ import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
+import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 
 function App () {
 
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
-  const [userCredentials, setUserCredentials] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState(Cookies.getJSON('authenticatedUser') || null);
+  const [userCredentials, setUserCredentials] = useState(Cookies.getJSON('userCredentials') || null);
 
   const handleSignIn = async (username, password) => {
     let user;
@@ -32,7 +34,9 @@ function App () {
         if (res.status === 200) {
           user = res.data;
           setUserCredentials(btoa(`${username}:${password}`));
+          Cookies.set('userCredentials', JSON.stringify(btoa(`${username}:${password}`)), {expires: 2});
           setAuthenticatedUser(user);
+          Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 2});
         } else {
           user = null;
         }
@@ -45,6 +49,8 @@ function App () {
   }
 
   const handleSignOut = () => {
+    Cookies.remove('authenticatedUser');
+    Cookies.remove('userCredentials');
     setAuthenticatedUser(null);
     setUserCredentials(null);
   }
@@ -52,14 +58,15 @@ function App () {
   return (
     <Router>
       <div>
-        <Header handleSignOut={handleSignOut}/>
+        <Header authenticatedUser={authenticatedUser}/>
 
         <Switch>
           <Route exact path="/" component={Courses}/>
-          <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} />)}/>
+          <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials}/>)}/>
           <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} />)}/>
           <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}/>
           <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn} />)}/>
+          <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut} />)}/>
         </Switch>
       </div>
     </Router>
