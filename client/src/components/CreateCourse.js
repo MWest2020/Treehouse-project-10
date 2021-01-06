@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 export default function CreateCourse (props) {
@@ -33,7 +34,6 @@ export default function CreateCourse (props) {
         .catch((error) => {
             console.log(error);
         })
-        
     }
 
     return (
@@ -54,7 +54,7 @@ export default function CreateCourse (props) {
                         <p>{props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName}</p>
                     </div>
                     <div className="course--description">
-                        <div><textarea id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder="Course description..."></textarea></div>
+                        <div><ReactMarkdown source={description} id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder="Course description..."></ReactMarkdown></div>
                     </div>
                     </div>
                     <div className="grid-25 grid-right">
@@ -66,7 +66,7 @@ export default function CreateCourse (props) {
                         </li>
                         <li className="course--stats--list--item">
                             <h4>Materials Needed</h4>
-                            <div><textarea id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } placeholder="List materials..."></textarea></div>
+                            <div><ReactMarkdown source={materialsNeeded} id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } placeholder="List materials..."></ReactMarkdown></div>
                         </li>
                         </ul>
                     </div>

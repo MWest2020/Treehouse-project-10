@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 export default function CourseDetail (props) {
@@ -59,11 +60,7 @@ export default function CourseDetail (props) {
                         <h3 className="course--title">{course.title}</h3>
                         <p>{course.User.firstName + " " + course.User.lastName}</p>
                     </div>
-                    <div className="course--description">
-                        { course.description !== null &&
-                            course.description.split( '\n' ).map( ( item ) => <p> { item } </p>)
-                        }
-                    </div>
+                    <ReactMarkdown source={course.description}/>
                 </div>
                 <div className="grid-25 grid-right">
                     <div className="course--stats">
@@ -79,12 +76,7 @@ export default function CourseDetail (props) {
                             </li>
                             <li className="course--stats--list--item">
                                 <h4>Materials Needed</h4>
-                                
-                                { course.materialsNeeded !== null &&
-                                    <ul>
-                                        {course.materialsNeeded.replace('*', '').split( '\n*' ).map( ( item ) => <li>{ item } </li>)}
-                                    </ul>
-                                }
+                                <ReactMarkdown source={course.materialsNeeded}/>
                                 { course.materialsNeeded === null &&
                                     <p>None.</p>
                                 }
