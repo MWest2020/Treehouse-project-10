@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -14,62 +14,54 @@ import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 
-class App extends Component {
+function App () {
 
-  render() {
-    const handleSignIn = async (username, password) => {
-      let user;
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [userCredentials, setUserCredentials] = useState(null);
 
-      await axios.get(`http://localhost:5000/api/users`, {
-        headers: {
-          'Authorization': {
-            'UserName': username,
-            'Password': password
-          } 
+  const handleSignIn = async (username, password) => {
+    let user;
+
+    await axios.get(`http://localhost:5000/api/users`, {
+      headers: {
+        'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+      }
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          user = res.data;
+          setUserCredentials(user);
+          setAuthenticatedUser(btoa(`${username}:${password}`));
+        } else {
+          user = null;
         }
       })
-        .then((res) => {
-          if (res.status === 200) {
-            user = res.data;
-            this.setState(() => {
-              return {
-                authenticatedUser: {
-                  userName: username,
-                  passWord: password
-                },
-              };
-            });
-          } else {
-            user = null;
-          }
-        })
-        .catch(err=>{
-          console.log(err);
-      });
+      .catch(err=>{
+        console.log(err);
+    });
 
-      return user;
-    }
-
-    const handleSignOut = () => {
-      this.setState({ authenticatedUser: null });
-    }
-
-    return (
-      <Router>
-        <div>
-          <Header />
-
-          <Switch>
-            <Route exact path="/" component={Courses}/>
-            <Route exact path="/courses/:id" component={CourseDetail}/>
-            <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}
-/>
-            <Route path="/signup" component={UserSignUp}/>
-          </Switch>
-        </div>
-      </Router>
-    );
+    return user;
   }
+
+  const handleSignOut = () => {
+    setAuthenticatedUser(null);
+    setUserCredentials(null);
+  }
+
+  return (
+    <Router>
+      <div>
+        <Header handleSignOut={handleSignOut}/>
+
+        <Switch>
+          <Route exact path="/" component={Courses}/>
+          <Route exact path="/courses/:id" component={CourseDetail}/>
+          <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}/>
+          <Route path="/signup" component={UserSignUp}/>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
