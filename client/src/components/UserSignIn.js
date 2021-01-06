@@ -7,15 +7,13 @@ export default function UserSignIn (props) {
     let history = useHistory();
 
     // Set State
-    const [emailAddress, setemailAddress] = useState("");
-    const [password, setpassword] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
+    const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
     // Create a function that calls the handleSignIn function when the form is submitted.
     const submit = (event) => {
         event.preventDefault();
-    
-        // console.log('Submit')
     
         props.handleSignIn(emailAddress, password)
             .then((user) => {
@@ -42,8 +40,8 @@ export default function UserSignIn (props) {
                         <ul className="validation--errors--label">{errors.map(error => { return <li key={'error' + error.index}><p>{error}</p></li> })}</ul>
                     }
                     <form>
-                    <div><input id="emailAddress" name="emailAddress" type="text" className="" onChange={ e => setemailAddress(e.target.value) } placeholder="Email Address"/></div>
-                    <div><input id="password" name="password" type="password" className="" onChange={ e => setpassword(e.target.value) } placeholder="Password"/></div>
+                    <div><input id="emailAddress" name="emailAddress" type="text" className="" onChange={ e => setEmailAddress(e.target.value) } placeholder="Email Address"/></div>
+                    <div><input id="password" name="password" type="password" className="" onChange={ e => setPassword(e.target.value) } placeholder="Password"/></div>
                     <div className="grid-100 pad-bottom"><button className="button" onClick={submit} type="submit">Sign In</button><Link to="/" className="button button-secondary">Cancel</Link></div>
                     </form>
                 </div>

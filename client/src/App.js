@@ -57,7 +57,7 @@ function App () {
           <Route exact path="/" component={Courses}/>
           <Route exact path="/courses/:id" component={CourseDetail}/>
           <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}/>
-          <Route path="/signup" component={UserSignUp}/>
+          <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn} />)}/>
         </Switch>
       </div>
     </Router>
