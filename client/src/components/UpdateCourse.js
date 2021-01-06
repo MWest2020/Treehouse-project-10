@@ -34,7 +34,7 @@ export default function UpdateCourse (props) {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        await axios.post(`http://localhost:5000/api/courses`, {
+        await axios.put(`http://localhost:5000/api/courses`, {
             headers: {
                 'Authorization': `Basic ${props.userCredentials}`
             },

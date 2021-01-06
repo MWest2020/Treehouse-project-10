@@ -37,19 +37,17 @@ export default function CourseDetail (props) {
         fetchData();
     }, [id]);
 
-    useEffect(() => {
-        console.log(course);
-    }, [course])
-
     return (
         <div>
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
-                        <span>
-                        <Link to={`/courses/${id}/update`} className="button">Update Course</Link>
-                        <button onClick={deleteCourse} className="button">Delete Course</button>
-                        </span>
+                        { props.authenticatedUser && props.authenticatedUser.id == id &&
+                            <span>
+                                <Link to={`/courses/${id}/update`} className="button">Update Course</Link>
+                                <button onClick={deleteCourse} className="button">Delete Course</button>
+                            </span>
+                        }
                         <Link to={"/"} className="button button-secondary">Return to List</Link>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ export default function UserSignIn (props) {
                 if (!user) {
                     setErrors([ 'Sign-in was unsuccessful' ]);
                 } else {
-                    history.push('/');
+                    history.goBack();
                 }
             })
             .catch((error) => {
