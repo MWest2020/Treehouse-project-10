@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-export default function CourseDetail () {
+export default function CourseDetail (props) {
 
     // Set the id equal to the id parameter from the url.
     const { id } = useParams();
@@ -12,15 +12,14 @@ export default function CourseDetail () {
 
     // A function that sends a delete request for a specified course.
     const deleteCourse = async () => {
-        // await axios.delete(`http://localhost:5000/api/courses/${id}`, {
-        //     headers: {
-        //         Authorization: 
-        //     }
-        // })
-        //     .catch(err=>{
-        //         console.log(err);
-        // });
-        console.log('Deleted');
+        await axios.delete(`http://localhost:5000/api/courses/${id}`, {
+            headers: {
+                Authorization: `Basic ${props.userCredentials}`
+            }
+        })
+            .catch(err=>{
+                console.log(err);
+        });
     }
 
     // Fetch the course data from the Api

@@ -13,6 +13,7 @@ import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
+import CreateCourse from './components/CreateCourse';
 
 function App () {
 
@@ -30,8 +31,8 @@ function App () {
       .then((res) => {
         if (res.status === 200) {
           user = res.data;
-          setUserCredentials(user);
-          setAuthenticatedUser(btoa(`${username}:${password}`));
+          setUserCredentials(btoa(`${username}:${password}`));
+          setAuthenticatedUser(user);
         } else {
           user = null;
         }
@@ -55,7 +56,8 @@ function App () {
 
         <Switch>
           <Route exact path="/" component={Courses}/>
-          <Route exact path="/courses/:id" component={CourseDetail}/>
+          <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} />)}/>
+          <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} />)}/>
           <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}/>
           <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn} />)}/>
         </Switch>
