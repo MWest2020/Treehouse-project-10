@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export default function UserSignOut (props) {
 
     let history = useHistory();
 
-    const signOut = () => {
+    useEffect(() => {
         history.push("/")
         props.handleSignOut();
-    }
+    });
+
     
     return (
-        signOut(),
         null
     );
 }
