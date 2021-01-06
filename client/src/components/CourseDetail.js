@@ -43,7 +43,7 @@ export default function CourseDetail (props) {
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
-                        { props.authenticatedUser && props.authenticatedUser.id == id &&
+                        { props.authenticatedUser && props.authenticatedUser.id.toString() === id.toString() &&
                             <span>
                                 <Link to={`/courses/${id}/update`} className="button">Update Course</Link>
                                 <button onClick={deleteCourse} className="button">Delete Course</button>

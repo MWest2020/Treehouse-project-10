@@ -24,9 +24,7 @@ export default function UserSignIn (props) {
                 }
             })
             .catch((error) => {
-                let errorList = errors;
-                errorList.push(error)
-                setErrors(errorList);
+                console.log(error);
                 history.push('/error');
             });
     }

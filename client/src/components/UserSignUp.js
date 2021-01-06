@@ -20,6 +20,9 @@ export default function UserSignUp (props) {
 
         e.preventDefault();
 
+        // Reset errors to none.
+        setErrors([]);
+
         if (password === confirmPassword) {
             await axios.post(`http://localhost:5000/api/users`, {
 
@@ -33,10 +36,15 @@ export default function UserSignUp (props) {
                     console.log(res)
                     props.handleSignIn(emailAddress, password);
                     history.push("/")
+                } else {
+                    console.log(res);
                 }
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(error=>{
+                let errorList = errors;
+                errorList.push(error)
+                setErrors(errorList);
+                history.push('/error');
             });
         } else {
             setErrors([ 'Passwords must match.' ]);
