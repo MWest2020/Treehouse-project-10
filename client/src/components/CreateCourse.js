@@ -77,5 +77,4 @@ export default function CreateCourse (props) {
             </div>
         </div>
     );
-
 }
