@@ -19,27 +19,22 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
     res.json({
         firstName: user.firstName,
         lastName: user.lastName,
-        emailAddress: user.emailAddress,
-        id: user.id
+        emailAddress: user.emailAddress
     });
 }));
 
 // A POST route that creates (POSTs) a user to the database.
 router.post('/users', asyncHandler(async (req, res) => {
     try {
-        const response = await User.create(req.body);
-        if (response.status === 201) {
-          res.location('/');
-          res.sendStatus(201);
-        } else if (response.status === 201) {
-          res.status(400).json(response.data.errors);
-        }
+        await User.create(req.body);
+        res.location('/');
+        res.status(201).send();
       } catch (error) {
-        console.log('ERROR: ', error.message);
+        console.log('ERROR: ', error.name);
     
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
           const errors = error.errors.map(err => err.message);
-          res.json({ errors });   
+          res.status(400).json({ errors });   
         } else {
           throw error;
         }
@@ -84,14 +79,10 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
   try {
       const course = await Course.create(req.body);
-      if (course.status === 201) {
-        res.location(`/courses/${course.id}`);
-        res.status(201).send();
-      } else if (course.status === 400) {
-        res.status(400).send(course.data.errors);
-      }
+      res.location(`/courses/${course.id}`);
+      res.status(201).send();
     } catch (error) {
-      console.log('ERROR: ', error.message);
+      console.log('ERROR: ', error.name);
   
       if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
         const errors = error.errors.map(err => err.message);

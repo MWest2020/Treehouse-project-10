@@ -18,8 +18,6 @@ export default function CreateCourse (props) {
     const handleCreation = async (e) => {
         e.preventDefault();
 
-        console.log(props.authenticatedUser.id);
-
         await axios.post(`http://localhost:5000/api/courses`,
             {
                 title: title,
