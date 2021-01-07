@@ -33,18 +33,15 @@ export default function UserSignUp (props) {
             })
             .then((res) => {
                 if (res.status === 201) {
-                    console.log(res)
+                    console.log(res.data)
                     props.handleSignIn(emailAddress, password);
                     history.push("/")
                 } else {
-                    console.log(res);
+                    console.log(res.data);
                 }
             })
-            .catch(error=>{
-                let errorList = errors;
-                errorList.push(error)
-                setErrors(errorList);
-                history.push('/error');
+            .catch(err=>{
+                console.log(err);
             });
         } else {
             setErrors([ 'Passwords must match.' ]);
