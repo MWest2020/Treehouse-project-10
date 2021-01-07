@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 export default function CourseDetail (props) {
 
+    // Declare history variable.
+    let history = useHistory();
+
     // Set the id equal to the id parameter from the url.
     const { id } = useParams();
-    
+
     // State for the course details
     const [course, setCourse] = useState({ title: "", User: {}, description: null, estimatedTime: null, materialsNeeded: null });
 
@@ -21,6 +24,8 @@ export default function CourseDetail (props) {
             .catch(err=>{
                 console.log(err);
         });
+
+        history.push("/");
     }
 
     // Fetch the course data from the Api
@@ -43,7 +48,7 @@ export default function CourseDetail (props) {
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
-                        { props.authenticatedUser && props.authenticatedUser.id.toString() === id.toString() &&
+                        { props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
                             <span>
                                 <Link to={`/courses/${id}/update`} className="button">Update Course</Link>
                                 <button onClick={deleteCourse} className="button">Delete Course</button>

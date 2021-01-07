@@ -56,21 +56,20 @@ module.exports = (sequelize) => {
                         if (emailAddress) {
                           throw new Error('An account with this email address already exists.');
                         }
-                      })
-                  }
+                    })
+                }
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: null,
             validate: {
                 notNull: {
                     msg: 'A password is required.'
                 },
                 notEmpty: {
                     msg: 'Please provide a password.'
-                }
+                },
             },
             set(val) {
                 const hashedPassword = bcrypt.hashSync(val, 10);

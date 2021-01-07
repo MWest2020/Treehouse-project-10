@@ -19,7 +19,8 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
     res.json({
         firstName: user.firstName,
         lastName: user.lastName,
-        emailAddress: user.emailAddress
+        emailAddress: user.emailAddress,
+        id: user.id
     });
 }));
 
@@ -101,6 +102,8 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async(req, res) => {
     course = await Course.findByPk(req.params.id);
     if(course) {
       if (req.currentUser.id == course.userId) {
+        console.log(course.userId);
+        console.log(req.currentUser.id);
         await course.update(req.body);
         res.status(204).send();
       } else {

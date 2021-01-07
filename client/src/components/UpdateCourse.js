@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 export default function UpdateCourse (props) {
+
+    // Declare history variable.
+    let history = useHistory();
     
     // Declare id variable.
     const { id } = useParams();
@@ -12,7 +15,6 @@ export default function UpdateCourse (props) {
     const [ description, setDescription ] = useState("");
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
-    const [course, setCourse] = useState({ title: "Course title...", User: props.authenticatedUser, description: "Course description...", estimatedTime: "Hours", materialsNeeded: "List materials..."});
     const [errors, setErrors] = useState([]);
     
     // Fetch the course data from the Api
@@ -21,7 +23,10 @@ export default function UpdateCourse (props) {
         async function fetchData() {
             await axios.get(`http://localhost:5000/api/courses/${id}`)
                 .then((res) => {
-                    setCourse(res.data.course);
+                    setTitle(res.data.course.title);
+                    setDescription(res.data.course.description);
+                    setEstimatedTime(res.data.course.estimatedTime);
+                    setMaterialsNeeded(res.data.course.materialsNeeded);
                 })
                 .catch(err=>{
                     console.log(err);
@@ -34,22 +39,24 @@ export default function UpdateCourse (props) {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        await axios.put(`http://localhost:5000/api/courses`, {
-            headers: {
-                'Authorization': `Basic ${props.userCredentials}`
-            },
-            data: {
-                title: title,
-                description: description,
-                userid: props.authenticatedUser.id,
-                estimatedTime: estimatedTime,
-                materialsNeeded: materialsNeeded
+        await axios.put(`http://localhost:5000/api/courses/${id}`, {
+            title: title,
+            description: description,
+            userid: props.authenticatedUser.id,
+            estimatedTime: estimatedTime,
+            materialsNeeded: materialsNeeded
+        },
+        {headers: {
+            Authorization: `Basic ${props.userCredentials}`
+        }})
+        .then(res => {
+            if (res = 204) {
+                history.push(`/courses/${id}`);
             }
         })
         .catch((error) => {
             console.log(error);
         })
-        
     }
 
     return (
@@ -66,11 +73,11 @@ export default function UpdateCourse (props) {
                     <div className="grid-66">
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
-                        <div><input id="title" name="title" type="text" className="input-title course--title--input" onChange={ e => setTitle(e.target.value) } placeholder={course.title}/></div>
+                        <div><input id="title" name="title" type="text" className="input-title course--title--input" onChange={ e => setTitle(e.target.value) } value={title}/></div>
                         <p>{props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName}</p>
                     </div>
                     <div className="course--description">
-                        <div><textarea id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder={course.description}></textarea></div>
+                        <div><textarea id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } value={description}></textarea></div>
                     </div>
                     </div>
                     <div className="grid-25 grid-right">
@@ -78,11 +85,11 @@ export default function UpdateCourse (props) {
                         <ul className="course--stats--list">
                         <li className="course--stats--list--item">
                             <h4>Estimated Time</h4>
-                            <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={ e => setEstimatedTime(e.target.value) } placeholder={course.estimatedTime || "Not specified."}/></div>
+                            <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={ e => setEstimatedTime(e.target.value) } value={estimatedTime !== null ? estimatedTime : "Not specified."}/></div>
                         </li>
                         <li className="course--stats--list--item">
                             <h4>Materials Needed</h4>
-                            <div><textarea id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } placeholder={course.materialsNeeded || "None."}></textarea></div>
+                            <div><textarea id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } value={materialsNeeded !== null ? materialsNeeded : "None."}></textarea></div>
                         </li>
                         </ul>
                     </div>
