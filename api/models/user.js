@@ -48,12 +48,22 @@ module.exports = (sequelize) => {
                 },
                 isEmail: {
                     msg: "Invalid email format."
-                }
+                },
+                isUnique(value) {
+          
+                    return User.findOne({where:{emailAddress:value}})
+                      .then((emailAddress) => {
+                        if (emailAddress) {
+                          throw new Error('An account with this email address already exists.');
+                        }
+                      })
+                  }
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue: null,
             validate: {
                 notNull: {
                     msg: 'A password is required.'

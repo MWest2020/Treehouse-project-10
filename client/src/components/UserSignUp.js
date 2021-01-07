@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ export default function UserSignUp (props) {
     const [ password, setPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const [errors, setErrors] = useState([]);
+    const [validationTitle, setValidationTitle] = useState([""]);
 
     // Create a function that handles signing the user up via our api.
     const handleSignUp = async (e) => {
@@ -33,11 +34,10 @@ export default function UserSignUp (props) {
             })
             .then((res) => {
                 if (res.status === 201) {
-                    console.log(res.data)
                     props.handleSignIn(emailAddress, password);
                     history.push("/")
                 } else {
-                    console.log(res.data);
+                    setErrors(res.data.errors);
                 }
             })
             .catch(err=>{
@@ -48,15 +48,22 @@ export default function UserSignUp (props) {
         }
     }
 
+    useEffect(() => {
+        if (errors.length > 0) {
+            setValidationTitle("Validation errors");
+        }
+    },[errors]);
+
     return (
         <div>
             <div className="bounds">
                 <div className="grid-33 centered signin">
+                    <h2 className="validation--errors--label">{validationTitle}</h2>
+                    { errors !== [] &&
+                        <div className="validation-errors"><ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul></div>
+                    }
                     <h1>Sign Up</h1>
                     <div>
-                        { errors !== [] && 
-                            <ul className="validation--errors--label">{errors.map(error => { return <li key={'error' + error.index}><p>{error}</p></li> })}</ul>
-                        }
                         <form>
                             <div><input id="firstName" name="firstName" type="text" className="" onChange={ e => setFirstName(e.target.value) } placeholder="First Name"/></div>
                             <div><input id="lastName" name="lastName" type="text" className="" onChange={ e => setLastName(e.target.value) } placeholder="Last Name"/></div>
