@@ -35,7 +35,7 @@ export default function UserSignUp (props) {
             .then((res) => {
                 if (res.status === 201) {
                     props.handleSignIn(emailAddress, password);
-                    history.push("/")
+                    history.push("/");
                 } else {
                     setErrors(res.data.errors);
                 }

@@ -30,9 +30,9 @@ router.post('/users', asyncHandler(async (req, res) => {
         const response = await User.create(req.body);
         if (response.status === 201) {
           res.location('/');
-          res.status(201).send();
+          res.sendStatus(201);
         } else if (response.status === 201) {
-          res.status(400).send(response.data.errors);
+          res.status(400).json(response.data.errors);
         }
       } catch (error) {
         console.log('ERROR: ', error.message);
@@ -84,8 +84,12 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
   try {
       const course = await Course.create(req.body);
-      res.location(`/courses/${course.id}`);
-      res.status(201).send();
+      if (course.status === 201) {
+        res.location(`/courses/${course.id}`);
+        res.status(201).send();
+      } else if (course.status === 400) {
+        res.status(400).send(course.data.errors);
+      }
     } catch (error) {
       console.log('ERROR: ', error.name);
   

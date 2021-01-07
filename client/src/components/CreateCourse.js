@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 export default function CreateCourse (props) {
@@ -20,16 +19,25 @@ export default function CreateCourse (props) {
         e.preventDefault();
 
         await axios.post(`http://localhost:5000/api/courses`, {
-            headers: {
-                'Authorization': `Basic ${props.userCredentials}`
-            },
             data: {
                 title: title,
                 description: description,
                 userid: props.authenticatedUser.id,
                 estimatedTime: estimatedTime,
                 materialsNeeded: materialsNeeded
+            },
+            headers: {
+                'Authorization': `Basic ${props.userCredentials}`
             }
+        })
+        .then((res) => {
+            console.log(res);
+            if (res.status === 201) {
+                history.push("/");
+            } else {
+                setErrors(res.data.errors);
+            }
+            
         })
         .catch((error) => {
             console.log(error);
@@ -54,7 +62,7 @@ export default function CreateCourse (props) {
                         <p>{props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName}</p>
                     </div>
                     <div className="course--description">
-                        <div><ReactMarkdown source={description} id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder="Course description..."></ReactMarkdown></div>
+                        <div><textarea source={description} id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder="Course description..."></textarea></div>
                     </div>
                     </div>
                     <div className="grid-25 grid-right">
@@ -66,7 +74,7 @@ export default function CreateCourse (props) {
                         </li>
                         <li className="course--stats--list--item">
                             <h4>Materials Needed</h4>
-                            <div><ReactMarkdown source={materialsNeeded} id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } placeholder="List materials..."></ReactMarkdown></div>
+                            <div><textarea source={materialsNeeded} id="materialsNeeded" name="materialsNeeded" className="" onChange={ e => setMaterialsNeeded(e.target.value) } placeholder="List materials..."></textarea></div>
                         </li>
                         </ul>
                     </div>
