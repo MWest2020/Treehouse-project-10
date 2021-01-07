@@ -18,23 +18,25 @@ export default function CreateCourse (props) {
     const handleCreation = async (e) => {
         e.preventDefault();
 
-        await axios.post(`http://localhost:5000/api/courses`, {
-            data: {
+        console.log(props.authenticatedUser.id);
+
+        await axios.post(`http://localhost:5000/api/courses`,
+            {
                 title: title,
                 description: description,
-                userid: props.authenticatedUser.id,
+                userId: props.authenticatedUser.id,
                 estimatedTime: estimatedTime,
                 materialsNeeded: materialsNeeded
             },
-            headers: {
-                'Authorization': `Basic ${props.userCredentials}`
-            }
-        })
+            {headers: {
+                Authorization: `Basic ${props.userCredentials}`
+            }})
         .then((res) => {
             console.log(res);
             if (res.status === 201) {
                 history.push("/");
             } else {
+                console.log(res.data.errors);
                 setErrors(res.data.errors);
             }
             
