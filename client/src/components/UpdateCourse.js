@@ -19,7 +19,6 @@ export default function UpdateCourse (props) {
     
     // Fetch the course data from the Api
     useEffect(() => {
-        let isMounted = true;
 
         async function fetchData() {
             await axios.get(`http://localhost:5000/api/courses/${id}`)
@@ -29,8 +28,6 @@ export default function UpdateCourse (props) {
                     } else if (props.authenticatedUser === null || props.authenticatedUser.id !== res.data.course.User.id) {
                         history.push(`/forbidden`);
                     }
-
-                    console.log(res.data);
 
                     setTitle(res.data.course.title);
                     setDescription(res.data.course.description);
@@ -43,7 +40,7 @@ export default function UpdateCourse (props) {
             });
         }
         fetchData();
-        return () => { isMounted = false };
+        return () => { console.log("Unmounted."); };
     }, [id, history, props.authenticatedUser]);
 
     // Create a function that handles creating a course with our api.
