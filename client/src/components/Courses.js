@@ -13,6 +13,7 @@ export default function Courses () {
             })
             .catch(err=>{
             console.log(err);
+            history.push("/error");
         });
     }
     fetchData();

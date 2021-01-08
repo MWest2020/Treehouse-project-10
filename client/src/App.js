@@ -47,6 +47,7 @@ function App () {
       })
       .catch(err=>{
         console.log(err);
+        history.push("/error");
     });
 
     return user;
