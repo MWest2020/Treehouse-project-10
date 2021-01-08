@@ -18,6 +18,8 @@ import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import UnhandledError from './components/UnhandledError';
+import NotFound from './components/NotFound';
+import Forbidden from './components/Forbidden';
 
 function App () {
 
@@ -71,6 +73,8 @@ function App () {
           <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
           <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
           <Route path="/error" component={UnhandledError}/>
+          <Route path="/forbidden" component={Forbidden}/>
+          <Route component={NotFound}/>
         </Switch>
       </div>
     </Router>
