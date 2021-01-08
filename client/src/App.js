@@ -17,6 +17,7 @@ import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
+import UnhandledError from './components/UnhandledError';
 
 function App () {
 
@@ -66,9 +67,10 @@ function App () {
           <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials}/>)}/>
           <Route exact path="/courses/:id/update" render={() => (<UpdateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials} />)}/>
           <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} authenticatedUser={authenticatedUser} />)}/>
-          <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn} />)}/>
-          <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn} />)}/>
-          <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut} />)}/>
+          <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
+          <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
+          <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
+          <Route path="/error" component={UnhandledError}/>
         </Switch>
       </div>
     </Router>
