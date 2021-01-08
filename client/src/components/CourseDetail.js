@@ -52,7 +52,7 @@ export default function CourseDetail (props) {
             });
         }
         fetchData();
-    }, [id]);
+    }, [id, history]);
 
     return (
         <div>

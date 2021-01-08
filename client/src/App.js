@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  withRouter
+  Switch
 } from 'react-router-dom';
 import './styles/global.css';
 import Cookies from 'js-cookie';
@@ -67,7 +66,7 @@ function App (props) {
         <Header authenticatedUser={authenticatedUser}/>
 
         <Switch>
-          <Route exact path="/" component={Courses}/>
+          <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
           <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials}/>)}/>
           <Route exact path="/courses/:id/update" render={() => (<UpdateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials} />)}/>
           <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} authenticatedUser={authenticatedUser} />)}/>

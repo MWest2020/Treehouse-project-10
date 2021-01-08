@@ -60,7 +60,7 @@ export default function CreateCourse (props) {
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
                         <div><input id="title" name="title" type="text" className="input-title course--title--input" onChange={ e => setTitle(e.target.value) } placeholder="Course title..."/></div>
-                        <p>{props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName}</p>
+                        <p>{props.authenticatedUser ? props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName : ""}</p>
                     </div>
                     <div className="course--description">
                         <div><textarea source={description} id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } placeholder="Course description..."></textarea></div>

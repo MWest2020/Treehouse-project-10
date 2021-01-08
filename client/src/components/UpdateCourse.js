@@ -42,7 +42,7 @@ export default function UpdateCourse (props) {
         }
         fetchData();
         return () => { isMounted = false };
-    }, [id]);
+    }, [id, history, props.authenticatedUser]);
 
     // Create a function that handles creating a course with our api.
     const handleUpdate = async (e) => {
