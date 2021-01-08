@@ -1,25 +1,21 @@
-// import React, { Component } from 'react';
-// import { Route, Redirect, useHistory } from 'react-router-dom';
-// import Cookies from 'js-cookie';
+import React, { Component } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
-// export default function PrivateRoute (props) {
+export default function PrivateRoute ({ component: Component, ...rest }) {
 
-//     // Declare history variable.
-//     let history = useHistory();
+    const authenticatedUser = Cookies.getJSON('authenticatedUser');
+    const userCredentials = Cookies.getJSON('userCredentials')
 
-//     const authenticatedUser = Cookies.getJSON('authenticatedUser');
-//     const userCredentials = Cookies.getJSON('userCredentials')
-
-//     return (
-//         <Route
-//             render={authenticatedUser ? (
-//                 <Component authenticatedUser={authenticatedUser} userCredentials={userCredentials} />
-//                 ) : (
-//                 <Redirect to={{
-//                     pathname: '/signin',
-//                     state: { from: props.location }
-//                 }} />)
-//             }
-//         />
-//     )
-// }
+    return (
+        <Route {...rest}>
+            {authenticatedUser ? (
+                <Component authenticatedUser={authenticatedUser} userCredentials={userCredentials} />
+                ) : (
+                <Redirect to={{
+                    pathname: '/signin'
+                }} />)
+            }
+        </Route>
+    )
+}

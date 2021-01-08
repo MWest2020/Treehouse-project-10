@@ -24,11 +24,13 @@ export default function UpdateCourse (props) {
         async function fetchData() {
             await axios.get(`http://localhost:5000/api/courses/${id}`)
                 .then((res) => {
-                    if (res.data.course === null) {
+                    if (res.data.course === null && res.status === 200) {
                         history.push("/notfound");
                     } else if (props.authenticatedUser === null || props.authenticatedUser.id !== res.data.course.User.id) {
                         history.push(`/forbidden`);
                     }
+
+                    console.log(res.data);
 
                     setTitle(res.data.course.title);
                     setDescription(res.data.course.description);

@@ -20,6 +20,7 @@ import UpdateCourse from './components/UpdateCourse';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
+import PrivateRoute from './PrivateRoute';
 
 function App (props) {
 
@@ -67,9 +68,9 @@ function App (props) {
 
         <Switch>
           <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
-          <Route exact path="/courses/create" render={() => (<CreateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials}/>)}/>
-          <Route exact path="/courses/:id/update" render={() => (<UpdateCourse authenticatedUser={authenticatedUser} userCredentials={userCredentials} />)}/>
-          <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} authenticatedUser={authenticatedUser} />)}/>
+          <PrivateRoute exact path="/courses/create" component={CreateCourse}/>
+          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse}/>)}/>
+          <Route exact path="/courses/:id" render={() => (<CourseDetail userCredentials={userCredentials} authenticatedUser={authenticatedUser}/>)}/>
           <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
           <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
           <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
