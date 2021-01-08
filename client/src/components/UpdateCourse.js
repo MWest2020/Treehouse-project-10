@@ -19,10 +19,17 @@ export default function UpdateCourse (props) {
     
     // Fetch the course data from the Api
     useEffect(() => {
+        let isMounted = true;
 
         async function fetchData() {
             await axios.get(`http://localhost:5000/api/courses/${id}`)
                 .then((res) => {
+                    if (res.data.course === null) {
+                        history.push("/notfound");
+                    } else if (props.authenticatedUser === null || props.authenticatedUser.id !== res.data.course.User.id) {
+                        history.push(`/forbidden`);
+                    }
+
                     setTitle(res.data.course.title);
                     setDescription(res.data.course.description);
                     setEstimatedTime(res.data.course.estimatedTime);
@@ -30,9 +37,11 @@ export default function UpdateCourse (props) {
                 })
                 .catch(err=>{
                     console.log(err);
+                    history.push("/error");
             });
         }
         fetchData();
+        return () => { isMounted = false };
     }, [id]);
 
     // Create a function that handles creating a course with our api.
@@ -50,12 +59,16 @@ export default function UpdateCourse (props) {
             Authorization: `Basic ${props.userCredentials}`
         }})
         .then(res => {
-            if (res = 204) {
+            console.log(res);
+            if (res.status === 204) {
                 history.push(`/courses/${id}`);
+            } else if (res === 401) {
+                history.push(`/forbidden`);
             }
         })
         .catch((error) => {
             console.log(error);
+            history.push("/error");
         })
     }
 
@@ -74,7 +87,7 @@ export default function UpdateCourse (props) {
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
                         <div><input id="title" name="title" type="text" className="input-title course--title--input" onChange={ e => setTitle(e.target.value) } value={title}/></div>
-                        <p>{props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName}</p>
+                        <p>{props.authenticatedUser ? props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName : ""}</p>
                     </div>
                     <div className="course--description">
                         <div><textarea id="description" name="description" className="" onChange={ e => setDescription(e.target.value) } value={description}></textarea></div>

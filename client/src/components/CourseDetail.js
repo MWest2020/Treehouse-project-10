@@ -21,8 +21,14 @@ export default function CourseDetail (props) {
                 Authorization: `Basic ${props.userCredentials}`
             }
         })
-            .catch(err=>{
-                console.log(err);
+        .then(res => {
+            if (res.status === 401) {
+                history.push(`/forbidden`);
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+            history.push("/error");
         });
 
         history.push("/");
@@ -34,10 +40,15 @@ export default function CourseDetail (props) {
         async function fetchData() {
             await axios.get(`http://localhost:5000/api/courses/${id}`)
                 .then((res) => {
-                    setCourse(res.data.course);
+                    if (res.status === 200 && res.data.course !== null) {
+                        setCourse(res.data.course);
+                    } else {
+                        history.push("/notfound");
+                    }
                 })
                 .catch(err=>{
                     console.log(err);
+                    history.push("/error");
             });
         }
         fetchData();

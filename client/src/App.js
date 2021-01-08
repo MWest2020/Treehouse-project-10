@@ -74,6 +74,7 @@ function App () {
           <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
           <Route path="/error" component={UnhandledError}/>
           <Route path="/forbidden" component={Forbidden}/>
+          <Route path="/notfound" component={NotFound}/>
           <Route component={NotFound}/>
         </Switch>
       </div>
