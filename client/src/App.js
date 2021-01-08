@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom';
 import './styles/global.css';
 import Cookies from 'js-cookie';
@@ -21,7 +22,7 @@ import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
 
-function App () {
+function App (props) {
 
   const [authenticatedUser, setAuthenticatedUser] = useState(Cookies.getJSON('authenticatedUser') || null);
   const [userCredentials, setUserCredentials] = useState(Cookies.getJSON('userCredentials') || null);
@@ -47,7 +48,7 @@ function App () {
       })
       .catch(err=>{
         console.log(err);
-        history.push("/error");
+        props.history.push("/error");
     });
 
     return user;

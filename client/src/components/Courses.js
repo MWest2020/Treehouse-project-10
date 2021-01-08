@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useHistory } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-export default function Courses () {
+export default function Courses (props) {
+    
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
@@ -13,7 +14,7 @@ export default function Courses () {
             })
             .catch(err=>{
             console.log(err);
-            history.push("/error");
+            props.history.push("/error");
         });
     }
     fetchData();
