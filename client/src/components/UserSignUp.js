@@ -25,24 +25,23 @@ export default function UserSignUp (props) {
         setErrors([]);
 
         if (password === confirmPassword) {
-            let response = await axios.post(`http://localhost:5000/api/users`, {
+            axios.post(`http://localhost:5000/api/users`, { data: {
 
                     firstName: firstName,
                     lastName: lastName,
                     emailAddress: emailAddress,
                     password: password
+            }}).then((response) => {
+                if (response.status === 201) {
+                    props.handleSignIn(emailAddress, password);
+                    history.push("/");
+                }
             })
-
-            if (response.status === 201) {
-                props.handleSignIn(emailAddress, password);
-                history.push("/");
-            } else if (response.status === 400) {
-                setErrors( response.json().then(data => {
-                    return data.errors;
-                }))
-            } else {
-                throw new Error();
-            }
+            .catch((error) => {
+                if (error.request.status === 400) {
+                    setErrors(JSON.parse(error.request.response).errors)
+                }
+            })
         } else {
             setErrors([ 'Passwords must match.' ]);
         }
