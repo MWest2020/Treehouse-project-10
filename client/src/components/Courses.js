@@ -4,20 +4,23 @@ import axios from 'axios';
 
 export default function Courses (props) {
     
+    // Set the courses state variable.
     const [courses, setCourses] = useState([]);
 
+    // Fetches the data as soon as the component mounts, then sets
+    // the courses state equal to the course returned from the api.
     useEffect(() => {
-    async function fetchData() {
-        await axios.get('http://localhost:5000/api/courses')
-            .then(res => {
-            setCourses(res.data.courses);
-            })
-            .catch(err=>{
-            console.log(err);
-            props.history.push("/error");
-        });
-    }
-    fetchData();
+        async function fetchData() {
+            await axios.get('http://localhost:5000/api/courses')
+                .then(res => {
+                setCourses(res.data.courses);
+                })
+                .catch(err=>{
+                console.log(err);
+                props.history.push("/error");
+            });
+        }
+        fetchData();
     }, [props.history]);
 
     return (

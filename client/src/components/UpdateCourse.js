@@ -16,9 +16,9 @@ export default function UpdateCourse (props) {
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
     const [errors, setErrors] = useState([]);
-    const [validationTitle, setValidationTitle] = useState([""]);
+    const [validationTitle, setValidationTitle] = useState([""]); // The Validation Errors text
     
-    // Fetch the course data from the Api
+    // Fetches the course data from the Api
     useEffect(() => {
 
         async function fetchData() {
@@ -48,7 +48,7 @@ export default function UpdateCourse (props) {
         return () => { console.log("Unmounted."); };
     }, [id, history, props.authenticatedUser]);
 
-    // Create a function that handles creating a course with our api.
+    // Function that handles creating a course with our api.
     const handleUpdate = async (e) => {
         e.preventDefault();
 
@@ -80,6 +80,8 @@ export default function UpdateCourse (props) {
         });
     }
 
+    // The Validation Errors text only gets set if error(s) exist,
+    // and this updates every time the errors object changes.
     useEffect(() => {
         if (errors.length > 0) {
             setValidationTitle("Validation errors");

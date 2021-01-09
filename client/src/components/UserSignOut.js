@@ -3,11 +3,13 @@ import { useHistory } from 'react-router-dom';
 
 export default function UserSignOut (props) {
 
+    // Declare history variable.
     let history = useHistory();
 
+    // Signs out the user when the component mounts.
     useEffect(() => {
-        history.push("/")
         props.handleSignOut();
+        history.push("/")
     });
 
     

@@ -11,7 +11,7 @@ export default function UserSignIn (props) {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
-    // Create a function that calls the handleSignIn function when the form is submitted.
+    // Function that calls the handleSignIn function when the form is submitted.
     const submit = (event) => {
         event.preventDefault();
     

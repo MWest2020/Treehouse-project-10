@@ -14,7 +14,7 @@ export default function CourseDetail (props) {
     // State for the course details
     const [course, setCourse] = useState({ title: "", User: {}, description: null, estimatedTime: null, materialsNeeded: null });
 
-    // A function that sends a delete request for a specified course.
+    // Function that sends a delete request for a specified course.
     const deleteCourse = async () => {
         await axios.delete(`http://localhost:5000/api/courses/${id}`, {
             headers: {
@@ -34,7 +34,7 @@ export default function CourseDetail (props) {
         history.push("/");
     }
 
-    // Fetch the course data from the Api
+    // Fetches the course data from the Api
     useEffect(() => {
 
         async function fetchData() {

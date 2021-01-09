@@ -13,9 +13,9 @@ export default function CreateCourse (props) {
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
     const [errors, setErrors] = useState([]);
-    const [validationTitle, setValidationTitle] = useState([""]);
+    const [validationTitle, setValidationTitle] = useState([""]); // The Validation Errors text
 
-    // Create a function that handles creating a course with our api.
+    // Function that handles creating a course with our api.
     const handleCreation = async (e) => {
         e.preventDefault();
 
@@ -46,6 +46,8 @@ export default function CreateCourse (props) {
         });
     }
 
+    // The Validation Errors text only gets set if error(s) exist,
+    // and this updates every time the errors object changes.
     useEffect(() => {
         if (errors.length > 0) {
             setValidationTitle("Validation errors");

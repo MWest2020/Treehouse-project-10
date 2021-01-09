@@ -14,9 +14,9 @@ export default function UserSignUp (props) {
     const [ password, setPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const [errors, setErrors] = useState([]);
-    const [validationTitle, setValidationTitle] = useState([""]);
+    const [validationTitle, setValidationTitle] = useState([""]); // The Validation Errors text
 
-    // Create a function that handles signing the user up via our api.
+    // Function that handles signing the user up via our api.
     const handleSignUp = async (e) => {
 
         e.preventDefault();
@@ -50,6 +50,8 @@ export default function UserSignUp (props) {
         }
     }
 
+    // The Validation Errors text only gets set if error(s) exist,
+    // and this updates every time the errors object changes.
     useEffect(() => {
         if (errors.length > 0) {
             setValidationTitle("Validation errors");

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Header (props) {
+
+    // Return different elements in the Header based on whether a user is signed in or not.
     return (
         <div className="header">
             <div className="bounds">
