@@ -43,7 +43,7 @@ export default function CreateCourse (props) {
                 console.log(error);
                 history.push("/error");
             }
-        })
+        });
     }
 
     useEffect(() => {

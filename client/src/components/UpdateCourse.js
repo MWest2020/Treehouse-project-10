@@ -16,6 +16,7 @@ export default function UpdateCourse (props) {
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
     const [errors, setErrors] = useState([]);
+    const [validationTitle, setValidationTitle] = useState([""]);
     
     // Fetch the course data from the Api
     useEffect(() => {
@@ -34,10 +35,14 @@ export default function UpdateCourse (props) {
                     setEstimatedTime(res.data.course.estimatedTime);
                     setMaterialsNeeded(res.data.course.materialsNeeded);
                 })
-                .catch(err=>{
-                    console.log(err);
-                    history.push("/error");
-            });
+                .catch((error) => {
+                    if (error.request.status === 400) {
+                        setErrors(JSON.parse(error.request.response).errors)
+                    } else {
+                        console.log(error);
+                        history.push("/error");
+                    }
+                });
         }
         fetchData();
         return () => { console.log("Unmounted."); };
@@ -66,9 +71,13 @@ export default function UpdateCourse (props) {
             }
         })
         .catch((error) => {
-            console.log(error);
-            history.push("/error");
-        })
+            if (error.request.status === 400) {
+                setErrors(JSON.parse(error.request.response).errors)
+            } else {
+                console.log(error);
+                history.push("/error");
+            }
+        });
     }
 
     return (
@@ -77,9 +86,12 @@ export default function UpdateCourse (props) {
                 <h1>Update Course</h1>
                 <div>
                 <div>
-                    { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
-                        <ul className="validation--errors--label">{errors.map(error => { return <li key={'error' + error.index}><p>{error}</p></li> })}</ul>
-                    }
+                    <h2 className="validation--errors--label">{validationTitle}</h2>
+                    <div>
+                        { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
+                            <div className="validation-errors"><ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul></div>
+                        }
+                    </div>
                 </div>
                 <form>
                     <div className="grid-66">
