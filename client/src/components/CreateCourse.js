@@ -59,7 +59,6 @@ export default function CreateCourse (props) {
                 <div>
                 <div>
                     <h2 className="validation--errors--label">{validationTitle}</h2>
-                
                     <div>
                         { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
                             <div className="validation-errors"><ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul></div>

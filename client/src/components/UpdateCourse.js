@@ -80,6 +80,12 @@ export default function UpdateCourse (props) {
         });
     }
 
+    useEffect(() => {
+        if (errors.length > 0) {
+            setValidationTitle("Validation errors");
+        }
+    },[errors]);
+
     return (
         <div>
             <div className="bounds course--detail">
