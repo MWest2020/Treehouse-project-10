@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,6 +13,7 @@ export default function CreateCourse (props) {
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState("");
     const [errors, setErrors] = useState([]);
+    const [validationTitle, setValidationTitle] = useState([""]);
 
     // Create a function that handles creating a course with our api.
     const handleCreation = async (e) => {
@@ -30,20 +31,26 @@ export default function CreateCourse (props) {
                 Authorization: `Basic ${props.userCredentials}`
             }})
         .then((res) => {
-            console.log(res);
+            console.log(res.data);
             if (res.status === 201) {
                 history.push("/");
-            } else {
-                console.log(res.data.errors);
-                setErrors(res.data.errors);
-            }
-            
+            }            
         })
         .catch((error) => {
-            console.log(error);
-            history.push("/error");
+            if (error.request.status === 400) {
+                setErrors(JSON.parse(error.request.response).errors)
+            } else {
+                console.log(error);
+                history.push("/error");
+            }
         })
     }
+
+    useEffect(() => {
+        if (errors.length > 0) {
+            setValidationTitle("Validation errors");
+        }
+    },[errors]);
 
     return (
         <div>
@@ -51,9 +58,13 @@ export default function CreateCourse (props) {
                 <h1>Create Course</h1>
                 <div>
                 <div>
-                    { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
-                        <ul className="validation--errors--label">{errors.map(error => { return <li key={'error' + error.index}><p>{error}</p></li> })}</ul>
-                    }
+                    <h2 className="validation--errors--label">{validationTitle}</h2>
+                
+                    <div>
+                        { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
+                            <div className="validation-errors"><ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul></div>
+                        }
+                    </div>
                 </div>
                 <form>
                     <div className="grid-66">
