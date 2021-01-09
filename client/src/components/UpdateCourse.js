@@ -45,7 +45,7 @@ export default function UpdateCourse (props) {
                 });
         }
         fetchData();
-        return () => { console.log("Unmounted."); };
+        return () => { console.log(); };
     }, [id, history, props.authenticatedUser]);
 
     // Function that handles creating a course with our api.

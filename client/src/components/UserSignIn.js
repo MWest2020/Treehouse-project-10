@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 export default function UserSignIn (props) { 
 
     // Declare history variable.
     let history = useHistory();
+
+    // Declare history variable.
+    let location = useLocation();
 
     // Set State
     const [emailAddress, setEmailAddress] = useState("");
@@ -20,7 +23,11 @@ export default function UserSignIn (props) {
                 if (!user) {
                     setErrors([ 'Sign-in was unsuccessful' ]);
                 } else {
-                    history.goBack();
+                    if (location.state) {
+                        history.push(location.state.from);
+                    } else {
+                        history.goBack();
+                    }
                 }
             })
             .catch((error) => {

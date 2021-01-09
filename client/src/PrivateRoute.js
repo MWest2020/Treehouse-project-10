@@ -1,12 +1,15 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-export default function PrivateRoute ({ component: Component, ...rest }) {
+export default function PrivateRoute ({ from, component: Component, ...rest }) {
 
     // Import user information from cookies.
     const authenticatedUser = Cookies.getJSON('authenticatedUser');
     const userCredentials = Cookies.getJSON('userCredentials');
+
+    // Declare history variable.
+    let location = useLocation();
 
     // Return either the desired component, or the signin route
     // based on whether a user is signed in.
@@ -16,7 +19,8 @@ export default function PrivateRoute ({ component: Component, ...rest }) {
                 <Component authenticatedUser={authenticatedUser} userCredentials={userCredentials} />
                 ) : (
                 <Redirect to={{
-                    pathname: '/signin'
+                    pathname: '/signin',
+                    state: { from: location.pathname }
                 }} />)
             }
         </Route>
