@@ -74,7 +74,7 @@ export default function CourseDetail (props) {
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
                         <h3 className="course--title">{course.title}</h3>
-                        <p>{course.User.firstName + " " + course.User.lastName}</p>
+                        <p>By {course.User.firstName + " " + course.User.lastName}</p>
                     </div>
                     <ReactMarkdown source={course.description}/>
                 </div>

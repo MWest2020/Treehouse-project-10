@@ -1,9 +1,12 @@
-import React, { useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Courses (props) {
     
+    // Declare history variable.
+    let history = useHistory();
+
     // Set the courses state variable.
     const [courses, setCourses] = useState([]);
 
@@ -15,13 +18,16 @@ export default function Courses (props) {
                 .then(res => {
                 setCourses(res.data.courses);
                 })
-                .catch(err=>{
-                console.log(err);
-                props.history.push("/error");
+                .catch(error=>{
+                console.log(error);
+                history.push("/error");
+            }).catch((error) => {
+                console.log(error);
+                history.push("/error");
             });
         }
         fetchData();
-    }, [props.history]);
+    }, [history]);
 
     return (
         <div className="bounds">

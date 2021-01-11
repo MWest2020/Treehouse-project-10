@@ -36,7 +36,7 @@ export default function UpdateCourse (props) {
                     setMaterialsNeeded(res.data.course.materialsNeeded);
                 })
                 .catch((error) => {
-                    if (error.request.status === 400) {
+                    if (error.request && error.request.status === 400) {
                         setErrors(JSON.parse(error.request.response).errors)
                     } else {
                         console.log(error);
@@ -126,7 +126,7 @@ export default function UpdateCourse (props) {
                         </ul>
                     </div>
                     </div>
-                    <div className="grid-100 pad-bottom"><button className="button" onClick={e => handleUpdate(e)} type="submit">Update Course</button><Link to="/" className="button button-secondary">Cancel</Link></div>
+                    <div className="grid-100 pad-bottom"><button className="button" onClick={e => handleUpdate(e)} type="submit">Update Course</button><Link to={`/courses/${id}`} className="button button-secondary">Cancel</Link></div>
                 </form>
                 </div>
             </div>
