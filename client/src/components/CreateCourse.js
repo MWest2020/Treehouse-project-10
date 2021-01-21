@@ -19,7 +19,7 @@ export default function CreateCourse (props) {
     const handleCreation = async (e) => {
         e.preventDefault();
 
-        await axios.post(`http://localhost:5000/api/courses`,
+        await axios.post(`https://rest-api-fsjs.herokuapp.com/api/courses`,
             {
                 title: title,
                 description: description,
