@@ -14,7 +14,7 @@ export default function Courses (props) {
     // the courses state equal to the course returned from the api.
     useEffect(() => {
         async function fetchData() {
-            await axios.get('http://localhost:5000/api/courses')
+            await axios.get('https://rest-api-fsjs.herokuapp.com/api/courses')
                 .then(res => {
                 setCourses(res.data.courses);
                 })

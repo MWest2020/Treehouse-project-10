@@ -33,7 +33,7 @@ function App (props) {
   const handleSignIn = async (username, password) => {
     let user;
 
-    await axios.get(`http://localhost:5000/api/users`, {
+    await axios.get(`https://rest-api-fsjs.herokuapp.com/api/users`, {
       headers: {
         'Authorization': `Basic ${btoa(`${username}:${password}`)}`
       }

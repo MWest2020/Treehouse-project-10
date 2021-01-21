@@ -25,7 +25,7 @@ export default function UserSignUp (props) {
         setErrors([]);
 
         if (password === confirmPassword) {
-            axios.post(`http://localhost:5000/api/users`, {
+            axios.post(`https://rest-api-fsjs.herokuapp.com/api/users`, {
 
                     firstName: firstName,
                     lastName: lastName,

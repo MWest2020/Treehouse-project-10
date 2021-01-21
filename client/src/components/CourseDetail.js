@@ -16,7 +16,7 @@ export default function CourseDetail (props) {
 
     // Function that sends a delete request for a specified course.
     const deleteCourse = async () => {
-        await axios.delete(`http://localhost:5000/api/courses/${id}`, {
+        await axios.delete(`https://rest-api-fsjs.herokuapp.com/api/courses/${id}`, {
             headers: {
                 Authorization: `Basic ${props.userCredentials}`
             }
@@ -38,7 +38,7 @@ export default function CourseDetail (props) {
     useEffect(() => {
 
         async function fetchData() {
-            await axios.get(`http://localhost:5000/api/courses/${id}`)
+            await axios.get(`https://rest-api-fsjs.herokuapp.com/api/courses/${id}`)
                 .then((res) => {
                     if (res.status === 200 && res.data.course !== null) {
                         setCourse(res.data.course);
