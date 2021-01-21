@@ -26,8 +26,7 @@ export default function CourseDetail (props) {
                 history.push(`/forbidden`);
             }
         })
-        .catch(err=>{
-            console.log(err);
+        .catch(() => {
             history.push("/error");
         });
 
@@ -46,8 +45,7 @@ export default function CourseDetail (props) {
                         history.push("/notfound");
                     }
                 })
-                .catch(err=>{
-                    console.log(err);
+                .catch(() => {
                     history.push("/error");
             });
         }

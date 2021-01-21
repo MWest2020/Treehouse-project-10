@@ -39,7 +39,6 @@ export default function UpdateCourse (props) {
                     if (error.request && error.request.status === 400) {
                         setErrors(JSON.parse(error.request.response).errors)
                     } else {
-                        console.log(error);
                         history.push("/error");
                     }
                 });
@@ -63,7 +62,6 @@ export default function UpdateCourse (props) {
             Authorization: `Basic ${props.userCredentials}`
         }})
         .then(res => {
-            console.log(res);
             if (res.status === 204) {
                 history.push(`/courses/${id}`);
             } else if (res === 401) {
@@ -74,7 +72,6 @@ export default function UpdateCourse (props) {
             if (error.request.status === 400) {
                 setErrors(JSON.parse(error.request.response).errors)
             } else {
-                console.log(error);
                 history.push("/error");
             }
         });

@@ -18,11 +18,9 @@ export default function Courses (props) {
                 .then(res => {
                 setCourses(res.data.courses);
                 })
-                .catch(error=>{
-                console.log(error);
+                .catch(() => {
                 history.push("/error");
-            }).catch((error) => {
-                console.log(error);
+            }).catch(() => {
                 history.push("/error");
             });
         }

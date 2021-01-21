@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  useHistory
 } from 'react-router-dom';
 import './styles/global.css';
 import Cookies from 'js-cookie';
@@ -22,7 +23,10 @@ import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
 import PrivateRoute from './PrivateRoute';
 
-function App (props) {
+function App () {
+
+  // Declare history variable.
+  let history = useHistory();
 
   // Import user information from cookies if they exist,
   // or set the user variables to null.
@@ -38,20 +42,23 @@ function App (props) {
         'Authorization': `Basic ${btoa(`${username}:${password}`)}`
       }
     })
-      .then((res) => {
-        if (res.status === 200) {
-          user = res.data;
-          setUserCredentials(btoa(`${username}:${password}`));
-          Cookies.set('userCredentials', JSON.stringify(btoa(`${username}:${password}`)), {expires: 2});
-          setAuthenticatedUser(user);
-          Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 2});
-        } else {
-          user = null;
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-        props.history.push("/error");
+    .then((res) => {
+      if (res.status === 200) {
+        user = res.data;
+        setUserCredentials(btoa(`${username}:${password}`));
+        Cookies.set('userCredentials', JSON.stringify(btoa(`${username}:${password}`)), {expires: 2});
+        setAuthenticatedUser(user);
+        Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 2});
+      } else {
+        user = null;
+      }
+    })
+    .catch(error => {
+      if (error.response.status === 401) {
+        user = null;
+      } else {
+        history.push("/error");
+      }
     });
 
     return user;

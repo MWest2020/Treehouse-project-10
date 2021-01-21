@@ -30,8 +30,7 @@ export default function UserSignIn (props) {
                     }
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
                 history.push('/error');
             });
     }

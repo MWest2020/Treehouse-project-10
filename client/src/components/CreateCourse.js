@@ -39,7 +39,6 @@ export default function CreateCourse (props) {
             if (error.request.status === 400) {
                 setErrors(JSON.parse(error.request.response).errors)
             } else {
-                console.log(error);
                 history.push("/error");
             }
         });
